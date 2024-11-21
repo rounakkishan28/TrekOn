@@ -4,11 +4,13 @@ import pkg from 'bcryptjs';
 const { genSalt, hash, compare } = pkg;
 
 const userSchema = new Schema({
-  fullname: { type: String, required: true },
-  username: { type: String, required: true },
+  clerkId: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
+  firstname: { type: String, required: true },
+  lastname: { type: String, required: true },
+  username: { type: String, required: true },
   password: { type: String, required: true },
-  bio: { type: String, default: "Hi👋, welcome to my profile." },
+  photo: { type: String, required: true },
   wishlist: { type: Object, default: {} },
 }, { timestamps: true });
 

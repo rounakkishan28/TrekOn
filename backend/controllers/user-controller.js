@@ -11,17 +11,37 @@ const generateToken = (id) => {
 
 // SignUp
 const signUp = async (req, res) => {
-
+  const { clerkId, email, firstname, lastname, username, password } = req.body;
+  try {
+    const user = await User.create({ clerkId, email, firstname, lastname, username, password });
+    res.json({ success: true, user });
+  } catch (error) {
+    res.json({ success: false, message: 'Failed to signup.', error });
+  }
 };
 
 // SignIn
 const signIn = async (req, res) => {
-
+  const { userId } = req.body;
+  try {
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) res.json({ success: false, message: 'User not found.' });
+    res.json({ success: true, user });
+  } catch (error) {
+    res.json({ success: false, message: 'Failed to signin.', error });
+  }
 };
 
-// Update Bio
-const changeBio = async (req, res) => {
-
+// Update user
+const updateUser = async (req, res) => {
+  const { clerkId, firstname, lastname, username, photo } = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, { firstname, lastname, username, photo }, { new: true });
+    if (!updatedUser) res.json({ success: false, message: 'Failed to update.' });
+    res.json({ success: true, updatedUser });
+  } catch (error) {
+    res.json({ success: false, message: 'Failed to update.', error });
+  }
 };
 
 // Get Dashboard
@@ -32,7 +52,7 @@ const getDashboard = async (req, res) => {
       "June", "July", "August", "September", "October",
       "November", "December"
     ];
-    const user = await User.findById(req.body.userId);
+    const user = await User.findOne({ clerkId: req.body.userId });
     const wishlistData = user.wishlist;
     let wishlist = Object.keys(wishlistData).length;
     const bookingData = Booking.find({ user });
@@ -46,7 +66,7 @@ const getDashboard = async (req, res) => {
       bookings: 0,
       reviews: 0
     }));
-    bookings.forEach((booking)=>{
+    bookings.forEach((booking) => {
       const bookingMonth = new Date(booking.createdAt).getMonth();
       monthly[reviewMonth].reviews += 1;
     });
@@ -60,4 +80,4 @@ const getDashboard = async (req, res) => {
   }
 };
 
-export { signUp, signIn, changeBio, getDashboard };
+export { signUp, signIn, updateUser, getDashboard };
