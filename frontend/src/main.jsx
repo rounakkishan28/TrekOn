@@ -27,7 +27,7 @@ import SignUpPage from './pages/SignUpPage.jsx';
 import AddCity from './pages/AddCity';
 import Booking from './pages/Booking';
 
-const url = "http://localhost:5000";
+const url = "https://trek-on-three.vercel.app";
 
 const browserRouter = createBrowserRouter([
   { path: '/', element: <Home url={url} /> },
