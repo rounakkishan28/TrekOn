@@ -26,11 +26,29 @@ const app = express();
 
 // Middleware
 app.use(json());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://trek-on-nzvd.vercel.app'); // Allow frontend origin
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
+  res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials if needed
+
+  // Respond OK to preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
+
+// Add this CORS configuration
 app.use(cors({
-  origin: 'https://trek-on-nzvd.vercel.app', // Allow specific frontend origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  credentials: true, // Allow cookies and credentials if necessary
+  origin: 'https://trek-on-nzvd.vercel.app', // Allow requests from your frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Include credentials (e.g., cookies) if necessary
 }));
+
 
 
 // Routes
