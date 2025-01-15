@@ -5,8 +5,9 @@ import { FaXTwitter } from 'react-icons/fa6';
 
 function Footer() {
     return (
-        <footer className="bg-gradient-to-br from-gray-950 via-gray-700 to-gray-950 text-gray-200 py-8 px-4">
+        <footer className="bg-gradient-to-br from-gray-800 via-gray-700 to-black text-gray-200 py-8 px-4">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
                 {/* Company Information */}
                 <div className="flex flex-col space-y-4">
                     <Link to={'/'}>

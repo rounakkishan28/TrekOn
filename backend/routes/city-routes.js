@@ -4,10 +4,6 @@ import multer from 'multer';
 
 const router = Router();
 
-// routes
-router.get('/get', getCities);
-router.post('/add', addCity);
-
 // multer storage
 const storage = multer.diskStorage({
     destination: 'uploads',
@@ -17,5 +13,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+// routes
+router.get('/get', getCities);
+router.post('/add', upload.single("image"), addCity);
 
 export default router;

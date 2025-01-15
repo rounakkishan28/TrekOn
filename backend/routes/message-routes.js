@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { getMessages } from '../controllers/message-controller.js';
+import { getMessages, sendMessage } from '../controllers/message-controller.js';
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-router.get('/:room', getMessages);
+router.get('/:chatId', authMiddleware, getMessages);
+router.post('/send', authMiddleware, sendMessage);
 
 export default router;

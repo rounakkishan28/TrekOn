@@ -1,19 +1,9 @@
 import { Router } from "express";
-import { getDeals, getTrendingDeals, getDealByRegion, getDealByCity, getDealByActivity, getDealById, getDealByUser, createDeal, deleteDeal } from '../controllers/deal-controller.js';
 import multer from 'multer';
+import { getDeals, getTrendingDeals, getDealByRegion, getDealByCity, getDealByActivity, getDealById, getDealByUser, createDeal, deleteDeal } from '../controllers/deal-controller.js';
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = Router();
-
-// routes
-router.get('/get', getDeals);
-router.get('/trending', getTrendingDeals);
-router.get('/region/get', getDealByRegion);
-router.get('/get/:id', getDealByCity);
-router.get('/activity/get', getDealByActivity);
-router.get('/:id', getDealById);
-router.get('/hosted', getDealByUser);
-router.post('/create-deal', createDeal);
-router.delete('/delete/:id', deleteDeal);
 
 // multer storage
 const storage = multer.diskStorage({
@@ -24,5 +14,16 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+// routes
+router.get('/get', getDeals);
+router.get('/trending', getTrendingDeals);
+router.get('/region/:id', getDealByRegion);
+router.get('/get/:id', getDealByCity);
+router.get('/activity/:id', getDealByActivity);
+router.get('/deal/:id', getDealById);
+router.get('/hosted-deal', authMiddleware, getDealByUser);
+router.post('/create-deal', upload.single("image"), authMiddleware, createDeal);
+router.delete('/delete/:id', deleteDeal);
 
 export default router;

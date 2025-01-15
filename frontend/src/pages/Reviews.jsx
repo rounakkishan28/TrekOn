@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "../components/ui/table.jsx";
-import { toast } from "@/hooks/use-toast.js";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table.jsx";
+import { toast } from "../hooks/use-toast.js";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 function Reviews({ url }) {
     const [reviews, setReviews] = useState([]);
 
-    async function loadReviews() {
+    async function loadReviews(token) {
         try {
-            const response = await axios.get(`${url}/api/review/get`);
+            const response = await axios.get(`${url}/api/review/get`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             if (response.data.success) setReviews(response.data.reviews);
             else toast({ title: response.data.message });
         } catch (error) {
@@ -18,8 +21,19 @@ function Reviews({ url }) {
         }
     };
 
+    async function onDelete(id) {
+        try{
+            const response = await axios.delete(`${url}/api/review/delete/${id}`);
+            if(response.data.success) toast({ title: 'Review removed.' });
+            else toast({ title: 'Error Occured.' });
+        } catch (error) {
+            toast({ title: 'Failed to delete review.' });
+        }
+    };
+
     useEffect(() => {
-        loadReviews();
+        const token = localStorage.getItem('trekon');
+        loadReviews(token);
     }, []);
 
     return (
@@ -29,21 +43,23 @@ function Reviews({ url }) {
                 <TableCaption className="text-lg text-gray-400">A list of your given reviews.</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">Deal Image</TableHead>
-                        <TableHead>Deal</TableHead>
-                        <TableHead>Comment</TableHead>
-                        <TableHead className='text-right'>Rating</TableHead>
+                        <TableHead className="w-28 sm:w-1/3">Deal Image</TableHead>
+                        <TableHead className='w-1/5'>Deal Name</TableHead>
+                        <TableHead className='w-1/6'>Comment</TableHead>
+                        <TableHead className='w-1/5'>Rating</TableHead>
+                        <TableHead className='w-1/5'>Delete</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {reviews.map((review) => (
                         <TableRow key={review._id} className="hover:bg-gray-700 transition-colors duration-300">
-                            <TableCell className="font-medium">
-                                <img src={review.deal.image} alt={review.deal.name} className="w-20 h-20 object-cover rounded-lg" />
+                            <TableCell className="w-1/3">
+                                <img src={`${url}/images/`+review.image} alt={review.dealName} className="w-28 h-20 object-cover rounded-lg mx-auto sm:w-32 lg:w-40 lg:h-28" />
                             </TableCell>
-                            <TableCell>{review.deal.name}</TableCell>
-                            <TableCell>{review.comment}</TableCell>
-                            <TableCell className="text-right">{review.rating}</TableCell>
+                            <TableCell className='w-1/5'>{review.dealName}</TableCell>
+                            <TableCell className='w-1/6'>{review.comment}</TableCell>
+                            <TableCell className="w-1/5">{review.rating}</TableCell>
+                            <TableCell className="w-1/5"><IoMdCloseCircleOutline onClick={() => onDelete(review._id)} className="w-5 h-5 cursor-pointer" /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

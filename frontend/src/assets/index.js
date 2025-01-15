@@ -10,6 +10,9 @@ import mountain from './mountain.jpg';
 import volcano from './volcano.jpg';
 import waterfall from './waterfall.jpg';
 import wetland from './wetland.jpg';
+import upload_area from './upload_area.png';
+import profile from './profile.png';
+import pencil from './pencil.png';
 
 import background3 from './background1.jpg';
 import background2 from './background2.jpg';
@@ -25,32 +28,5 @@ export const assets = [
 ];
 
 export const images = {
-    beach, canyon, caves, desert, forest, glacier, island, lake, mountain, volcano, waterfall, wetland, worldMap
+    profile, pencil, beach, canyon, caves, desert, forest, glacier, island, lake, mountain, volcano, waterfall, wetland, worldMap, upload_area
 };
-
-
-{/* <div className='mx-auto max-w-screen-xl my-20 py-10 border border-gray-100 rounded-xl'>
-    <h2 className='text-4xl font-bold text-center text-gray-100 mb-8'>Testimonials</h2>
-    <Carousel
-        plugins={[testimonialsPlugin.current]}
-        onMouseEnter={testimonialsPlugin.current.stop}
-        onMouseLeave={testimonialsPlugin.current.play}
-        className=''
-    >
-        <CarouselContent>
-            {testimonials.map((item, index) => (
-                <CarouselItem key={index}>
-                    <div className='p-0 w-[400px]'>
-                        <Card>
-                            <CardContent className=''>
-                                <CardDescription>{item.description}</CardDescription>
-                                <CardTitle>{item.name}</CardTitle>
-                                <CardDescription>{item.position}</CardDescription>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </CarouselItem>
-            ))}
-        </CarouselContent>
-    </Carousel>
-</div> */}
