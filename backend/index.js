@@ -26,7 +26,12 @@ const app = express();
 
 // Middleware
 app.use(json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://trek-on-nzvd.vercel.app', // Allow specific frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true, // Allow cookies and credentials if necessary
+}));
+
 
 // Routes
 app.use('/api/user', userRoutes);
