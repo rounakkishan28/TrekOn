@@ -14,7 +14,7 @@ function App({ children }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   
-  const url = 'https://trek-on-three.vercel.app';
+  const url = 'https://trekon.onrender.com';
 
   async function loadDashboard() {
     try {
