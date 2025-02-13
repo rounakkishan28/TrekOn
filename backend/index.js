@@ -90,7 +90,7 @@ import { Server } from 'socket.io';
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://trek-on-nzvd.vercel.app",
+    origin: "*",
   },
 });
 
